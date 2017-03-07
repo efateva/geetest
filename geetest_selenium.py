@@ -26,10 +26,10 @@ while times > 0:
     br.get("http://www.jianshu.com/sign_in")
     wait = WebDriverWait(br, 40, 1.0)
     element = wait.until(EC.presence_of_element_located((By.ID, "session_email_or_mobile_number")))
-    element.send_keys("darbra@126.com")
+    element.send_keys("")
     time.sleep(1.2)
     element = wait.until(EC.presence_of_element_located((By.ID, "session_password")))
-    element.send_keys("darbra2wsx$RFV")
+    element.send_keys("")
     time.sleep(1.2)
 
 
