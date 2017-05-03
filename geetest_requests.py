@@ -76,19 +76,10 @@ class jianshu(object):
 
 
     def process_5(self):
-        img_url1 = "http://static.geetest.com/" + self.info["fullbg"]
-        img_url2 = "http://static.geetest.com/" + self.info["bg"]
-        xpos, tracks = crack_picture(img_url1, img_url2).pictures_recover()
-        timess = 4
-        while xpos > 90:
-            self.refresh()
-            img_url1 = "http://static.geetest.com/" + self.info["fullbg"]
-            img_url2 = "http://static.geetest.com/" + self.info["bg"]
-            xpos, tracks = crack_picture(img_url1, img_url2).pictures_recover()
-            timess -= 1
-            if timess == 0:
-                print "fail"
-                return
+        xpos, tracks = self.get_xpos_trace()
+        if not xpos:
+            print "fail! retry in 1 second"
+            return
         print xpos
         act = self.gee_f(self.gee_c(tracks))
         time.sleep(0.6)
@@ -103,6 +94,21 @@ class jianshu(object):
         ans = self.repeat(url, hd, self.ck_geetest)
         print ans.content
 
+
+    def get_xpos_trace(self):
+        xpos = 110
+        times = 4
+        while xpos > 90:
+            img_url1 = "http://static.geetest.com/" + self.info["fullbg"]
+            img_url2 = "http://static.geetest.com/" + self.info["bg"]
+            xpos, tracks = crack_picture(img_url1, img_url2).pictures_recover()
+            if xpos <= 90: return xpos, tracks
+            times -= 1
+            if times == 0:
+                print "fail"
+                return None, None
+            self.refresh()
+            
 
     def refresh(self):
         hd = {"Host": "api.geetest.com",
@@ -258,6 +264,8 @@ class crack_picture(object):
 
 
     def darbra_track(self, distance):
+        if distance > 100:
+            return []
         y_float = 0.0
         xps = distance
         #轨迹代码已删除
@@ -289,4 +297,3 @@ if __name__ == "__main__":
         jsh = jianshu()
         jsh.run()
         time.sleep(0.5)
-
