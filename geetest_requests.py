@@ -38,7 +38,7 @@ class jianshu(object):
 
 
     def gen_timestamp(self):
-        return str(random.random()*10000+int(time.time()*1000))
+        return str(int(random.random()*10000+int(time.time()*1000)))
 
 
     def process_1(self):
